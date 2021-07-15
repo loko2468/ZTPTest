@@ -29,8 +29,8 @@
 
 <div class="main flexRow">
 {% for r in rates %}
-<div>
-    <h2>{{r.name}}</h2>
+<div class="rate">
+    <h2>{{r.name}} <span class="rateprice"> - {{r.price_gbp_per_kwh}} £/kWh</span></h2>
 
     {% for c in r.readings %}
     <div class="consumprow flexRow">
@@ -91,17 +91,18 @@
 
 </div>
 
-<div class="corner">
-{% if winners %}
-<button class="win btn" onclick="showWinners()">Show Highest Consumers</button>
-{% endif %}
 {% if rates %}
+
+<div class="corner">
+<button class="win btn" onclick="showWinners()">Show Highest Consumers</button>
 <button class="btn">
     <a class="btn" href="{% url 'clear' %}">
         Clear all data
     </a>
 </button>
-{% endif %}
 </div>
+
+{% endif %}
+
 </body>
 </html>
