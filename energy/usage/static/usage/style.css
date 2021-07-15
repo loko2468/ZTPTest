@@ -1,0 +1,51 @@
+
+.flexCol{
+    display:flex;
+    flex-direction:column;
+}
+.flexRow{
+    display:flex;
+    flex-direction:row;
+    gap:50px;
+    flex-wrap:wrap;
+}
+.main{
+    width:70vw;
+    margin-left:auto;
+    margin-right:auto;
+}
+.customer{
+
+}
+h1{
+text-align:center;
+}
+
+.consumprow{
+    margin:0 0 10px 0;
+}
+
+.highest{
+
+}
+
+#upload{
+    display:inline;
+    width:200px;
+    text-align:center;
+}
+
+.btn{
+    color:black;
+    text-decoration:none;
+    background-color:lightgrey;
+    border-radius:10px;
+    padding:5px 15px 5px 15px;
+    font-weight:bold;
+}
+.btn:hover{
+    filter:brightness(110%);
+}
+.hidden{
+display: none;
+}

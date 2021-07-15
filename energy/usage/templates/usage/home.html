@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+
+    <link rel="stylesheet" type="text/css" href="{% static 'usage/style.css' %}">
+    <script src="{% static 'usage/script.js' %}"></script>
+</head>
+
+<style>
+</style>
+<body>
+
+<h1>Customer Consumption(£) by Rate, last quarter</h1>
+
+<div id="upload">
+<form  method="post" enctype="multipart/form-data">
+    <h3>Upload spreadsheet</h3>
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value = "Submit">
+</form>
+</div>
+
+<a target="_blank"
+    class="btn"
+    href="{% url 'clear' %}">
+    Clear all data
+</a>
+
+
+{% if winners %}
+<button class="btn" onclick="showWinners()">Show Highest Consumers</button>
+{% endif %}
+
+<div class="main flexRow">
+{% for r in rates %}
+<div>
+    <h2>{{r.name}}</h2>
+
+    {% for c in r.readings %}
+    <div class="consumprow flexRow">
+        <div class="consumption">{{c.consumption}}</div>
+
+        <div class="customer">
+        {{c.customer.name}}<br>
+        {{c.customer.address}}<br>
+        {{c.customer.meter_number}}
+        </div>
+
+
+    </div>
+    {% empty %}
+    <div>
+        No customers at this rate.
+    </div>
+    {% endfor %}
+
+</div>
+{% endfor %}
+
+    <div class="highest hidden">
+    <h2>Highest Consumption Customers</h2>
+    <table>
+    {% for w in winners %}
+    <tr>
+        <td>
+            {{w.rate.name}}<br>
+            {{w.consumption}}
+        </td>
+
+        <td  class="customer">
+            {{w.customer.name}}<br>
+            {{w.customer.address}}<br>
+            {{w.customer.meter_number}}
+        </td>
+    </tr>
+    {% endfor %}
+
+    <tr>
+        <td>
+            Total Energy Cost: <br>
+            {{highest_consumption_customer.total_consumption}}
+        </td>
+
+        <td  class="customer">
+            {{highest_consumption_customer.name}}<br>
+            {{highest_consumption_customer.address}}<br>
+            {{highest_consumption_customer.meter_number}}
+        </td>
+    </tr>
+    </table>
+    </div>
+
+</div>
+
+
+</body>
+</html>
