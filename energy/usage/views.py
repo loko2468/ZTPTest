@@ -5,6 +5,16 @@ import types
 
 # Create your views here.
 def home(request):
+    File.objects.all().delete()
+
+    if request.method == 'POST':
+        form = upload_form(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            # return HttpResponse('The file is saved')
+    else:
+        form = upload_form()
+
     if CustomerReading.objects.all().count()>0:
         readings = CustomerReading.objects.filter(number=2)
         rates = Rate.objects.all()
@@ -25,16 +35,7 @@ def home(request):
 
         #Rate.objects.all().prefetch_related('customerreading'),
 
-        if request.method == 'POST':
-            form = upload_form(request.POST, request.FILES)
-            if form.is_valid():
-                form.save()
-                #return HttpResponse('The file is saved')
-        else:
-            form = upload_form()
-            context = {
-                'form': form,
-            }
+
 
         data = {
             'rates': rates,
@@ -43,7 +44,7 @@ def home(request):
             'form': form,
         }
     else:
-        return render(request, 'usage/home.html')
+        return render(request, 'usage/home.html', {'form':form})
     return render(request, 'usage/home.html', data)
 
 

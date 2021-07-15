@@ -1,8 +1,9 @@
 import os
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from .models import File, Rate, Customer, CustomerReading
 from openpyxl import load_workbook
+from django.core.files import storage
 
 @receiver(post_save, sender=File)
 def OnFileSave(sender, **kwargs):
@@ -11,12 +12,22 @@ def OnFileSave(sender, **kwargs):
     if kwargs['created'] == True:
         filepath = inst.xlsx.path
         process_data(inst.xlsx.file)
-        # if os.path.isfile(filepath):
-        #     os.remove(filepath)
+
+@receiver(post_delete, sender=File)
+def OnFileDelete(sender, **kwargs):
+    inst = kwargs['instance']
+    filepath = inst.xlsx.path
+    #   inst.xlsx.delete(save=False)
+
+    #storage.Storage.delete(inst.xlsx.path)
+
+    # if os.path.isfile(filepath):
+    #     os.remove(filepath)
+
 
 
 def process_data(file):
-    #file = 'D:\Ben\PycharmProjects\ZTPTest\energy\EnergyConsumptionDetail_updated.xlsx'
+    # file = 'D:\Ben\PycharmProjects\ZTPTest\energy\EnergyConsumptionDetail_updated.xlsx'
     try:
         wb = load_workbook(filename=file)
         rates = wb['Rate Price']
@@ -75,8 +86,10 @@ def process_data(file):
 
                             if CustomerReading.objects.filter(customer=customer, rate=rate, kwh_reading=kwh_reading,
                                                               number=number).count() == 0:
-                                CustomerReading(customer=customer, rate=rate, kwh_reading=kwh_reading, number=number).save()
+                                CustomerReading(customer=customer, rate=rate, kwh_reading=kwh_reading,
+                                                number=number).save()
                         else:
                             continue
+
     except:
         pass
