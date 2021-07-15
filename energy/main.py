@@ -1,7 +1,7 @@
 import os, django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "energy.settings")
 django.setup()
-from usage.models import Rate, Customer, CustomerReading
+from usage.models import Rate, Customer, CustomerReading, File
 from openpyxl import load_workbook
 
 file = 'D:\Ben\PycharmProjects\ZTPTest\energy\EnergyConsumptionDetail_updated.xlsx'

@@ -50,11 +50,4 @@ class CustomerReading(models.Model):
 
 
 class File(models.Model):
-    title = models.CharField(max_length = 80)
     xlsx = models.FileField(verbose_name='File')
-
-    class Meta:
-        ordering = ['title']
-
-    def __str__(self):
-        return f"{self.title}"
