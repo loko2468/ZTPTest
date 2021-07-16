@@ -48,6 +48,16 @@ class CustomerReading(models.Model):
     def __str__(self):
         return f'{self.customer}, {self.rate}, #{self.number}: {self.kwh_reading}'
 
+'''
+alternative to the consumption function above. Would make aggregating on it easier, but adds redundancy.
+Could populate it in the post_save signal of CustomerReading, when kwargs['created'] == True
+'''
+# class Consumption(models.Model):
+#     customer = models.ForeignKey(Customer, on_delete=models.PROTECT, related_name='customerreading')
+#     rate = models.ForeignKey(Rate, on_delete=models.PROTECT, related_name='customerreading')
+#     number = models.PositiveSmallIntegerField(null=False, blank=False)
+#     consumption = models.DecimalField(null=False, blank=False)
+
 
 class File(models.Model):
     xlsx = models.FileField(verbose_name='File')

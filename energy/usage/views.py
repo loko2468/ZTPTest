@@ -11,11 +11,11 @@ def home(request):
         form = upload_form(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            # return HttpResponse('The file is saved')
+        return redirect('home')
     else:
         form = upload_form()
 
-    if CustomerReading.objects.all().count()>0:
+    if CustomerReading.objects.first():
         readings = CustomerReading.objects.filter(number=2)
         rates = Rate.objects.all()
         winners = []
@@ -27,15 +27,11 @@ def home(request):
 
         customers = Customer.objects.all().prefetch_related('customerreading')
         for c in customers:
-            c.total_consumption = 0
-            for r in c.customerreading.filter(number=2):
-                c.total_consumption+=r.consumption()
+            c.total_consumption = sum(r.consumption() for r in c.customerreading.filter(number=2))
 
         highest_consumption_customer = sorted(customers, key=lambda a: a.total_consumption, reverse=True)[0]
 
         #Rate.objects.all().prefetch_related('customerreading'),
-
-
 
         data = {
             'rates': rates,
@@ -44,21 +40,9 @@ def home(request):
             'form': form,
         }
     else:
-        return render(request, 'usage/home.html', {'form':form})
+        data = {'form':form,}
     return render(request, 'usage/home.html', data)
 
-
-def upload(request):
-    if request.method == 'POST':
-        form = upload_form(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            #return HttpResponse('The file is saved')
-    else:
-        form = upload_form()
-        context = {
-            'form': form,
-        }
 
 def clear(request):
     CustomerReading.objects.all().delete()

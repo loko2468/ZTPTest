@@ -5,6 +5,7 @@ from .models import File, Rate, Customer, CustomerReading
 from openpyxl import load_workbook
 from django.core.files import storage
 
+
 @receiver(post_save, sender=File)
 def OnFileSave(sender, **kwargs):
     inst = kwargs['instance']
@@ -13,17 +14,17 @@ def OnFileSave(sender, **kwargs):
         filepath = inst.xlsx.path
         process_data(inst.xlsx.file)
 
+
 @receiver(post_delete, sender=File)
 def OnFileDelete(sender, **kwargs):
     inst = kwargs['instance']
     filepath = inst.xlsx.path
     #   inst.xlsx.delete(save=False)
 
-    #storage.Storage.delete(inst.xlsx.path)
+    # storage.Storage.delete(inst.xlsx.path)
 
     # if os.path.isfile(filepath):
     #     os.remove(filepath)
-
 
 
 def process_data(file):
@@ -48,7 +49,6 @@ def process_data(file):
             for r in list(s.rows)[0:3]:
                 field = r[0].value
                 value = r[1].value
-                # print(field,value)
                 if field == 'Customer Name':
                     name = value
                 elif field == 'Customer Address':
@@ -64,7 +64,6 @@ def process_data(file):
 
             customer = Customer.objects.get(meter_number=meter_number)
 
-            # print(customer)
             for r in list(s.rows)[5:10]:
 
                 user_input_rate = r[0].value
@@ -76,18 +75,13 @@ def process_data(file):
                 rate = Rate.objects.filter(name=user_input_rate)
                 if rate.count() == 1:
                     rate = rate[0]
-                    # print(rate)
                     for index, cell in enumerate(r[1:], 1):
-                        # print('in')
                         if cell.value is not None:
                             number = index
                             kwh_reading = cell.value
-                            # print(number, kwh_reading)
 
-                            if CustomerReading.objects.filter(customer=customer, rate=rate, kwh_reading=kwh_reading,
-                                                              number=number).count() == 0:
-                                CustomerReading(customer=customer, rate=rate, kwh_reading=kwh_reading,
-                                                number=number).save()
+                            if CustomerReading.objects.filter(customer=customer, rate=rate, number=number).count() == 0:
+                                CustomerReading(customer=customer, rate=rate, kwh_reading=kwh_reading, number=number).save()
                         else:
                             continue
 
