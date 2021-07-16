@@ -37,7 +37,7 @@
         <div class="consumption" title="1st read: {{c.previous_reading}}
 2nd read: {{c.kwh_reading}}">{{c.consumption}}</div>
 
-        <div class="customer">
+        <div class="customer" data-customer_id="{{c.customer.id}}">
         {{c.customer.name}}<br>
         {{c.customer.address}}<br>
         {{c.customer.meter_number}}
@@ -66,7 +66,7 @@
             {{w.consumption}}
         </td>
 
-        <td  class="customer">
+        <td  class="customer" data-customer_id="{{w.customer.id}}">
             {{w.customer.name}}<br>
             {{w.customer.address}}<br>
             {{w.customer.meter_number}}
@@ -80,7 +80,8 @@
             {{highest_consumption_customer.total_consumption}}
         </td>
 
-        <td  class="customer">
+        <td class="customer" data-customer_id="{{highest_consumption_customer.id}}">
+
             {{highest_consumption_customer.name}}<br>
             {{highest_consumption_customer.address}}<br>
             {{highest_consumption_customer.meter_number}}

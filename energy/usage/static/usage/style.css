@@ -19,7 +19,7 @@ html{
     margin:30px auto 0 auto;
 }
 .customer{
-
+    padding:5px;
 }
 h1{
 text-align:center;
@@ -27,11 +27,14 @@ text-align:center;
 
 .consumprow{
     margin:0 0 15px 0;
+    align-items:center;
+
 }
 
 .consumption{
     width:70px;
     cursor:pointer;
+    vertical-align: center;
 }
 
 .highest{
@@ -70,4 +73,9 @@ text-align:center;
     right:40px;
     bottom:40px;
 
+}
+
+.highlight{
+    border-radius: 10px;
+    outline: 2px solid orange;
 }
