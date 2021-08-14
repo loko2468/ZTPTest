@@ -2,11 +2,15 @@ from django.shortcuts import render, redirect
 from .models import Rate, Customer, CustomerReading, File
 from .forms import upload_form
 import types
+from django.db.models import Min, Max, F, ExpressionWrapper, DecimalField
+
+CustomerReading.objects.values('customer__name', 'rate__name').annotate(
+    consumption=(Max('kwh_reading') - Min('kwh_reading'))).annotate(
+    test=ExpressionWrapper(F('consumption') * F('rate__price_gbp_per_kwh'),
+                           output_field=DecimalField(decimal_places=5, max_digits=8)))
 
 # Create your views here.
 def home(request):
-    File.objects.all().delete()
-
     if request.method == 'POST':
         form = upload_form(request.POST, request.FILES)
         if form.is_valid():
