@@ -20,6 +20,9 @@ CustomerReading.objects.values('customer__name', 'rate__name').annotate(
 #squash 1
 #squash 2
 
+#rebase 1
+#rebase 2
+
 # normal merge 1
 # normal merge 2
 
