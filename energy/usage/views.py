@@ -9,6 +9,8 @@ CustomerReading.objects.values('customer__name', 'rate__name').annotate(
     test=ExpressionWrapper(F('consumption') * F('rate__price_gbp_per_kwh'),
                            output_field=DecimalField(decimal_places=5, max_digits=8)))
 
+# change1
+
 # Create your views here.
 def home(request):
     if request.method == 'POST':
