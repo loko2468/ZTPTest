@@ -10,6 +10,7 @@ CustomerReading.objects.values('customer__name', 'rate__name').annotate(
                            output_field=DecimalField(decimal_places=5, max_digits=8)))
 
 # change1
+# change2
 
 # Create your views here.
 def home(request):
