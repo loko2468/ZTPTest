@@ -26,6 +26,8 @@ CustomerReading.objects.values('customer__name', 'rate__name').annotate(
 # normal merge 1
 # normal merge 2
 
+# newB
+
 # Create your views here.
 def home(request):
     if request.method == 'POST':
