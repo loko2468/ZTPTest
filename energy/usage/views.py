@@ -34,7 +34,7 @@ CustomerReading.objects.values('customer__name', 'rate__name').annotate(
 
 #master change
 
-# another change
+# another change 123
 
 # Create your views here.
 def home(request):
